@@ -15,19 +15,24 @@ const News = (props)=>{
         return string.charAt(0).toUpperCase() + string.slice(1);
     } 
 
-    const updateNews = async ()=> {
-        
-        const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page}&pageSize=${props.pageSize}`; 
-        setLoading(true)
-        let data = await fetch(url);
-        
-        let parsedData = await data.json()
-        
-        setArticles(parsedData.articles)
-        setTotalResults(parsedData.totalResults)
-        setLoading(false)
-        
-    }
+    
+    const updateNews = async () => {
+  const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page}&pageSize=${props.pageSize}`;
+  setLoading(true);
+  try {
+    let data = await fetch(url);
+    let parsedData = await data.json();
+
+
+    setArticles(parsedData.articles || []);
+    setTotalResults(parsedData.totalResults || 0);
+  } catch (error) {
+    console.error("Failed to fetch news:", error);
+    setArticles([]);
+    setTotalResults(0);
+  }
+  setLoading(false);
+};
 
     useEffect(() => {
         document.title = `${capitalizeFirstLetter(props.category)} - NewsMonkey`;
@@ -36,14 +41,19 @@ const News = (props)=>{
     }, [])
 
 
-    const fetchMoreData = async () => {   
-        const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page+1}&pageSize=${props.pageSize}`;
-        setPage(page+1) 
+    const fetchMoreData = async () => {
+    const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page+1}&pageSize=${props.pageSize}`;
+    setPage(page + 1);
+    try {
         let data = await fetch(url);
-        let parsedData = await data.json()
-        setArticles(articles.concat(parsedData.articles))
-        setTotalResults(parsedData.totalResults)
-      };
+        let parsedData = await data.json();
+        
+        setArticles(prev => [...prev, ...(parsedData.articles || [])]); // ✅ fallback
+        setTotalResults(parsedData.totalResults || 0);
+    } catch (error) {
+        console.error("Failed to fetch more data:", error);
+    }
+};
  
         return (
             <>
