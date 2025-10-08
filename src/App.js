@@ -3,7 +3,8 @@ import React from 'react'
 import NavBar from './components/Navbar';
 import News from './components/News';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 const App = ()=> {
   const pageSize = 5;
   const apiKey = process.env.REACT_APP_NEWS_API
@@ -11,7 +12,7 @@ const App = ()=> {
 
   return (
     <div>
-      <Router basename="/News-App"> {/* <-- add basename here */}
+      <Router> {/* <-- add basename here */}
         <NavBar expand="lg" bg="light" variant="light"/> 
         <Routes>
           <Route path="/" element={<News apiKey={apiKey} key="general" pageSize={pageSize} country="us" category="general"/>}></Route> 
