@@ -8,6 +8,7 @@ import HomePage from './pages/HomePage';
 import ArticlePage from './pages/ArticlePage';
 import SavedPage from './pages/SavedPage';
 import News from './components/News';
+import Footer from './components/Footer';
 import { BookmarkProvider } from './context/BookmarkContext';
 import { ThemeProvider } from './context/ThemeContext';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -51,6 +52,7 @@ const App = () => {
                 </div>
               } />
             </Routes>
+            <Footer />
           </Router>
         </div>
       </BookmarkProvider>

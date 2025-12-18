@@ -10,7 +10,7 @@
     z-index: var(--z-fixed);
     display: flex;
     align-items: center;
-    background: var(--color-accent);
+    background: var(--color-primary-dark);
     height: 36px;
     overflow: hidden;
 }
@@ -20,7 +20,7 @@
     align-items: center;
     gap: var(--space-2);
     padding: 0 var(--space-4);
-    background: var(--color-accent-dark);
+    background: var(--color-primary);
     color: var(--color-white);
     font-size: var(--text-xs);
     font-weight: var(--font-bold);

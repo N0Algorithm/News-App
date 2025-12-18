@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { useParams, useLocation, useNavigate, Link } from 'react-router-dom';
-import { getImageFallback, formatDate, getCategoryBadgeClass } from '../utils/editorialUtils';
+import React, { useState, useEffect } from 'react';
+import { useLocation, useNavigate, Link } from 'react-router-dom';
+import { formatDate, getImageFallback, getCategoryBadgeClass } from '../utils/newsUtils';
 import './ArticlePage.css';
 
 /**
@@ -8,13 +8,18 @@ import './ArticlePage.css';
  * Dedicated article detail view
  */
 const ArticlePage = () => {
-    const { id } = useParams();
     const location = useLocation();
     const navigate = useNavigate();
     const [imageError, setImageError] = useState(false);
-
     // Get article from navigation state
     const article = location.state?.article;
+
+    // Move hook before conditional returns
+    useEffect(() => {
+        if (article?.title) {
+            document.title = article.title;
+        }
+    }, [article?.title]);
 
     // If no article in state (direct URL access), show fallback
     if (!article) {
@@ -42,7 +47,6 @@ const ArticlePage = () => {
         creator,
         pubDate,
         source_id,
-        source_url,
         category,
         keywords
     } = article;
@@ -65,9 +69,7 @@ const ArticlePage = () => {
     const fullContent = content || description || 'Full article content is not available.';
 
     // Check if content is truncated (newsdata.io often truncates)
-    const isTruncated = fullContent.includes('[+') ||
-        fullContent.length < 200 ||
-        fullContent.endsWith('...');
+    const isTruncated = fullContent.endsWith('...');
 
     return (
         <div className="article-page">

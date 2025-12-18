@@ -1,6 +1,6 @@
 /**
- * Editorial Utility Functions
- * Handles content hierarchy, breaking news detection, and image fallbacks
+ * News Utility Functions
+ * Handles content hierarchy, breaking news detection, image fallbacks, and formatting
  */
 
 // Keywords that indicate breaking news
@@ -21,7 +21,7 @@ const CATEGORY_FALLBACKS = {
     technology: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80',
     health: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&q=80',
     science: 'https://images.unsplash.com/photo-1507413245164-6160d8298b31?w=800&q=80',
-    sports: 'https://images.unsplash.com/photo-1461896836934- voices76b894d?w=800&q=80',
+    sports: 'https://images.unsplash.com/photo-1461896836934-voices76b894d?w=800&q=80',
     entertainment: 'https://images.unsplash.com/photo-1603190287605-e6ade32fa852?w=800&q=80',
     general: 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=800&q=80',
     default: 'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=800&q=80'
@@ -34,8 +34,6 @@ const CATEGORY_FALLBACKS = {
  */
 export const getHeroArticle = (articles) => {
     if (!articles || articles.length === 0) return null;
-
-    // Prefer article with image for hero
     const withImage = articles.find(article => article.image_url);
     return withImage || articles[0];
 };
@@ -47,8 +45,6 @@ export const getHeroArticle = (articles) => {
  */
 export const getFeaturedArticles = (articles) => {
     if (!articles || articles.length <= 1) return [];
-
-    // Skip the hero article (first one) and get next 4
     return articles.slice(1, 5);
 };
 
@@ -59,7 +55,6 @@ export const getFeaturedArticles = (articles) => {
  */
 export const getLatestArticles = (articles) => {
     if (!articles || articles.length <= 5) return [];
-
     return articles.slice(5);
 };
 
@@ -71,22 +66,16 @@ export const getLatestArticles = (articles) => {
  */
 export const detectBreakingNews = (articles, maxAgeHours = 2) => {
     if (!articles || articles.length === 0) return [];
-
     const now = new Date();
     const maxAgeMs = maxAgeHours * 60 * 60 * 1000;
-
     return articles.filter(article => {
-        // Check time-based criteria
         const pubDate = new Date(article.pubDate);
         const isRecent = (now - pubDate) < maxAgeMs;
-
-        // Check keyword-based criteria
         const title = (article.title || '').toLowerCase();
         const description = (article.description || '').toLowerCase();
         const hasKeyword = BREAKING_KEYWORDS.some(keyword =>
             title.includes(keyword) || description.includes(keyword)
         );
-
         return isRecent && hasKeyword;
     });
 };
@@ -109,21 +98,18 @@ export const getImageFallback = (category) => {
  */
 export const formatDate = (dateString, format = 'short') => {
     if (!dateString) return '';
-
     const date = new Date(dateString);
     const now = new Date();
     const diffMs = now - date;
     const diffMins = Math.floor(diffMs / 60000);
     const diffHours = Math.floor(diffMs / 3600000);
     const diffDays = Math.floor(diffMs / 86400000);
-
     if (format === 'relative') {
         if (diffMins < 1) return 'Just now';
         if (diffMins < 60) return `${diffMins}m ago`;
         if (diffHours < 24) return `${diffHours}h ago`;
         if (diffDays < 7) return `${diffDays}d ago`;
     }
-
     if (format === 'long') {
         return date.toLocaleDateString('en-US', {
             year: 'numeric',
@@ -133,8 +119,6 @@ export const formatDate = (dateString, format = 'short') => {
             minute: '2-digit'
         });
     }
-
-    // Short format (default)
     return date.toLocaleDateString('en-US', {
         month: 'short',
         day: 'numeric',
@@ -161,14 +145,11 @@ export const truncateText = (text, maxLength = 150) => {
  */
 export const getArticleId = (article) => {
     if (article.article_id) return article.article_id;
-
-    // Fallback: create slug from title
     const slug = (article.title || 'article')
         .toLowerCase()
         .replace(/[^a-z0-9]+/g, '-')
         .replace(/^-|-$/g, '')
         .substring(0, 50);
-
     return slug;
 };
 
@@ -189,17 +170,38 @@ export const getCategoryBadgeClass = (category) => {
  */
 export const removeDuplicates = (articles) => {
     if (!articles || articles.length === 0) return [];
-
     const seen = new Set();
     return articles.filter(article => {
-        // Normalize title for comparison
         const normalizedTitle = (article.title || '')
             .toLowerCase()
             .replace(/[^a-z0-9]/g, '')
             .substring(0, 50);
-
         if (seen.has(normalizedTitle)) return false;
         seen.add(normalizedTitle);
         return true;
     });
+};
+
+/**
+ * Capitalize the first letter of a string
+ */
+export const capitalizeFirstLetter = (string) => {
+    if (!string) return '';
+    return string.charAt(0).toUpperCase() + string.slice(1);
+};
+
+/**
+ * Get color for a news category
+ */
+export const getCategoryColor = (category) => {
+    const colors = {
+        business: '#1d3557',
+        technology: '#457b9d',
+        health: '#2a9d8f',
+        science: '#264653',
+        sports: '#e76f51',
+        entertainment: '#9c6644',
+        general: '#6c757d'
+    };
+    return colors[category.toLowerCase()] || colors.general;
 };

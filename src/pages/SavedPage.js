@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useBookmarks } from '../context/BookmarkContext';
 import ArticleCard from '../components/ArticleCard';
@@ -10,6 +10,10 @@ import './SavedPage.css';
  */
 const SavedPage = () => {
     const { bookmarks, clearBookmarks, bookmarkCount } = useBookmarks();
+
+    useEffect(() => {
+        document.title = 'Saved Articles';
+    }, []);
 
     return (
         <div className="saved-page">

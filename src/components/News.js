@@ -3,7 +3,8 @@ import ArticleCard from './ArticleCard';
 import Loading from './Loading';
 import PropTypes from 'prop-types';
 import InfiniteScroll from "react-infinite-scroll-component";
-import { removeDuplicates } from '../utils/editorialUtils';
+import { removeDuplicates, capitalizeFirstLetter, getCategoryColor } from '../utils/newsUtils';
+import { getSampleByCategory } from '../utils/sampleData';
 import './News.css';
 
 /**
@@ -15,43 +16,38 @@ const News = (props) => {
     const [loading, setLoading] = useState(true);
     const [nextPage, setNextPage] = useState(null);
 
-    const capitalizeFirstLetter = (string) => {
-        return string.charAt(0).toUpperCase() + string.slice(1);
-    }
-
-    const getCategoryColor = (category) => {
-        const colors = {
-            business: '#1d3557',
-            technology: '#457b9d',
-            health: '#2a9d8f',
-            science: '#264653',
-            sports: '#e76f51',
-            entertainment: '#9c6644',
-            general: '#6c757d'
-        };
-        return colors[category.toLowerCase()] || colors.general;
-    }
-
     const updateNews = async () => {
         const url = `https://newsdata.io/api/1/latest?apikey=${props.apiKey}&language=en`;
         setLoading(true);
         try {
-            let data = await fetch(url);
-            let parsedData = await data.json();
+            let response = await fetch(url);
+            if (!response.ok) {
+                throw new Error(`API returned status ${response.status}`);
+            }
+            let parsedData = await response.json();
+
+            if (parsedData.status === 'error') {
+                throw new Error(parsedData.message || 'API returned an error');
+            }
 
             const resultsArray = Array.isArray(parsedData.results) ? parsedData.results : [];
             const uniqueArticles = removeDuplicates(resultsArray);
-            setArticles(uniqueArticles);
-            setNextPage(parsedData.nextPage || null);
+
+            if (uniqueArticles.length === 0) {
+                setArticles(getSampleByCategory(props.category));
+            } else {
+                setArticles(uniqueArticles);
+                setNextPage(parsedData.nextPage || null);
+            }
         } catch (error) {
-            console.error("Failed to fetch news:", error);
-            setArticles([]);
+            console.error("Failed to update news, using sample data:", error);
+            setArticles(getSampleByCategory(props.category));
         }
         setLoading(false);
     };
 
     useEffect(() => {
-        document.title = `${capitalizeFirstLetter(props.category)} News - NewsTempo`;
+        document.title = `${capitalizeFirstLetter(props.category)} News`;
         updateNews();
         // eslint-disable-next-line
     }, [props.category]);

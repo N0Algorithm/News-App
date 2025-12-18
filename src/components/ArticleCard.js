@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { getImageFallback, formatDate, truncateText, getArticleId, getCategoryBadgeClass } from '../utils/editorialUtils';
+import { getImageFallback, truncateText, getArticleId, getCategoryBadgeClass, formatDate } from '../utils/newsUtils';
 import { cardHover, imageHover, headlineReveal, getReducedMotion } from '../utils/animations';
 import BookmarkButton from './BookmarkButton';
 import './ArticleCard.css';

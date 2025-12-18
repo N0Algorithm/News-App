@@ -9,9 +9,10 @@ import {
     getHeroArticle,
     getFeaturedArticles,
     getLatestArticles,
-    detectBreakingNews,
-    removeDuplicates
-} from '../utils/editorialUtils';
+    removeDuplicates,
+    detectBreakingNews
+} from '../utils/newsUtils';
+import { sampleArticles } from '../utils/sampleData';
 import './HomePage.css';
 
 /**
@@ -35,7 +36,14 @@ const HomePage = ({ apiKey }) => {
 
         try {
             const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error(`API returned status ${response.status}`);
+            }
             const data = await response.json();
+
+            if (data.status === 'error') {
+                throw new Error(data.message || 'API returned an error');
+            }
 
             console.log('API Response:', data);
 
@@ -49,6 +57,12 @@ const HomePage = ({ apiKey }) => {
             const breaking = detectBreakingNews(uniqueArticles);
             setBreakingNews(breaking);
 
+            if (uniqueArticles.length === 0) {
+                // Fallback if results are empty but no error was thrown
+                setArticles(sampleArticles);
+                setBreakingNews(sampleArticles.slice(0, 3));
+            }
+
             // Add class to body if breaking news exists
             if (breaking.length > 0) {
                 document.body.classList.add('has-breaking-news');
@@ -56,8 +70,9 @@ const HomePage = ({ apiKey }) => {
                 document.body.classList.remove('has-breaking-news');
             }
         } catch (error) {
-            console.error('Failed to fetch news:', error);
-            setArticles([]);
+            console.error('Failed to fetch news, using sample data:', error);
+            setArticles(sampleArticles);
+            setBreakingNews(sampleArticles.slice(0, 3));
         }
 
         setLoading(false);
@@ -74,6 +89,14 @@ const HomePage = ({ apiKey }) => {
             const data = await response.json();
 
             const newArticles = data.results || [];
+
+            if (newArticles.length === 0 && articles.length > 0) {
+                // If we hit a limit while scrolling, we could optionally show more sample data
+                // for now just stop scrolling
+                setNextPage(null);
+                return;
+            }
+
             const combined = [...articles, ...newArticles];
             const uniqueArticles = removeDuplicates(combined);
 
@@ -85,7 +108,7 @@ const HomePage = ({ apiKey }) => {
     };
 
     useEffect(() => {
-        document.title = 'NewsTempo - Your Daily News Source';
+        document.title = 'Latest & Breaking News';
         fetchNews();
 
         return () => {
