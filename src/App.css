@@ -1,13 +1,97 @@
+/* ========================================
+   GLOBAL APP STYLES
+   ======================================== */
+
+/* Navbar Base Styling */
 nav.navbar {
-            background-color: #3E3E3E; /* Use your preferred shade of gray */
-            padding: 5px;
-          }
-li{
-  font-size: 22px;
+  background-color: var(--color-white);
+  padding: var(--space-3) var(--space-4);
+  box-shadow: var(--shadow-sm);
+  border-bottom: 1px solid var(--color-gray-200);
+  transition: all var(--transition-normal);
 }
 
-.nav-link {
-  margin-left:25px;
-  margin-right:25px;
-  color:white;
+nav.navbar.scrolled {
+  box-shadow: var(--shadow-md);
+}
+
+/* Logo */
+.navbar-brand img {
+  height: 40px;
+  width: auto;
+}
+
+/* Navigation Links */
+.navbar-nav .nav-link {
+  font-family: var(--font-primary);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--color-gray-600);
+  padding: var(--space-2) var(--space-3);
+  margin: 0 var(--space-1);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link:focus {
+  color: var(--color-primary);
+  background: var(--color-gray-50);
+}
+
+.navbar-nav .nav-link.active {
+  color: var(--color-primary);
+  background: rgba(0, 119, 182, 0.1);
+}
+
+/* Mobile Toggle */
+.navbar-toggler {
+  border: 1px solid var(--color-gray-300);
+  padding: var(--space-2);
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(73, 80, 87, 1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='m4 7h22m-22 8h22m-22 8h22'/%3e%3c/svg%3e");
+}
+
+/* 404 Page */
+.not-found-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  text-align: center;
+  padding: var(--space-8);
+  margin-top: 70px;
+}
+
+.not-found-page h2 {
+  font-family: var(--font-heading);
+  font-size: var(--text-4xl);
+  color: var(--color-gray-800);
+  margin-bottom: var(--space-4);
+}
+
+.not-found-page p {
+  font-size: var(--text-lg);
+  color: var(--color-gray-500);
+}
+
+/* Responsive Navbar */
+@media (max-width: 991px) {
+  .navbar-collapse {
+    background: var(--color-white);
+    padding: var(--space-4);
+    margin-top: var(--space-3);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .navbar-nav .nav-link {
+    padding: var(--space-3) var(--space-4);
+    margin: var(--space-1) 0;
+  }
 }

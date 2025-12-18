@@ -1,0 +1,60 @@
+/* ========================================
+   THEME TOGGLE STYLES
+   ======================================== */
+
+.theme-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--color-gray-200);
+    background: var(--color-white);
+    color: var(--color-gray-600);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    margin-left: var(--space-3);
+}
+
+.theme-toggle:hover {
+    background: var(--color-gray-100);
+    color: var(--color-gray-800);
+    transform: rotate(15deg);
+}
+
+.theme-toggle.dark {
+    background: var(--color-gray-800);
+    border-color: var(--color-gray-700);
+    color: var(--color-warning);
+}
+
+.theme-toggle.dark:hover {
+    background: var(--color-gray-700);
+}
+
+.theme-toggle-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform var(--transition-normal);
+}
+
+.theme-toggle:active .theme-toggle-icon {
+    transform: scale(0.9);
+}
+
+/* Animation for theme change */
+@keyframes rotate-sun {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.theme-toggle.light .theme-toggle-icon svg {
+    animation: rotate-sun 0.5s ease;
+}

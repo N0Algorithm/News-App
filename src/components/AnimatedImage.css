@@ -1,0 +1,55 @@
+/* ========================================
+   ANIMATED IMAGE STYLES
+   ======================================== */
+
+.animated-image-container {
+    position: relative;
+    overflow: hidden;
+    background: var(--color-gray-100);
+    border-radius: inherit;
+}
+
+.animated-image-skeleton {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg,
+            var(--color-gray-100) 0%,
+            var(--color-gray-200) 50%,
+            var(--color-gray-100) 100%);
+    background-size: 200% 100%;
+    animation: skeleton-shimmer 1.5s ease-in-out infinite;
+}
+
+@keyframes skeleton-shimmer {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+.animated-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    will-change: filter, transform, opacity;
+}
+
+[data-theme="dark"] .animated-image-skeleton {
+    background: linear-gradient(90deg,
+            var(--color-gray-100) 0%,
+            var(--color-gray-200) 50%,
+            var(--color-gray-100) 100%);
+    background-size: 200% 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .animated-image-skeleton {
+        animation: none;
+        background: var(--color-gray-100);
+    }
+}

@@ -1,0 +1,129 @@
+/* ========================================
+   CATEGORY PAGE STYLES (News.js)
+   ======================================== */
+
+.category-page {
+    min-height: 100vh;
+    background: var(--color-gray-50);
+    padding-top: 70px;
+}
+
+/* ===== Category Header ===== */
+.category-page-header {
+    background: var(--color-white);
+    border-bottom: 1px solid var(--color-gray-200);
+    padding: var(--space-8) 0;
+}
+
+.category-page-container {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 var(--space-4);
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+}
+
+.category-indicator-large {
+    width: 6px;
+    height: 60px;
+    border-radius: var(--radius-sm);
+    flex-shrink: 0;
+}
+
+.category-page-info {
+    flex: 1;
+}
+
+.category-page-title {
+    font-family: var(--font-heading);
+    font-size: var(--text-4xl);
+    font-weight: var(--font-bold);
+    color: var(--color-gray-900);
+    margin: 0 0 var(--space-1);
+    text-transform: capitalize;
+}
+
+.category-page-subtitle {
+    font-size: var(--text-base);
+    color: var(--color-gray-500);
+    margin: 0;
+}
+
+/* ===== Content Area ===== */
+.category-page-content {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: var(--space-8) var(--space-4);
+}
+
+.category-articles-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-6);
+}
+
+/* ===== Loading & Empty States ===== */
+.category-loading {
+    display: flex;
+    justify-content: center;
+    padding: var(--space-16) 0;
+}
+
+.category-empty {
+    text-align: center;
+    padding: var(--space-16) var(--space-4);
+}
+
+.category-empty h3 {
+    font-size: var(--text-xl);
+    color: var(--color-gray-700);
+    margin: 0 0 var(--space-2);
+}
+
+.category-empty p {
+    color: var(--color-gray-500);
+}
+
+.end-message {
+    text-align: center;
+    padding: var(--space-8);
+    color: var(--color-gray-500);
+    font-size: var(--text-sm);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 1199px) {
+    .category-articles-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 991px) {
+    .category-articles-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 575px) {
+    .category-page-header {
+        padding: var(--space-6) 0;
+    }
+
+    .category-page-title {
+        font-size: var(--text-2xl);
+    }
+
+    .category-indicator-large {
+        height: 40px;
+    }
+
+    .category-page-content {
+        padding: var(--space-6) var(--space-4);
+    }
+
+    .category-articles-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-4);
+    }
+}

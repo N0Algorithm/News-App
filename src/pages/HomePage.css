@@ -1,0 +1,65 @@
+/* ========================================
+   HOMEPAGE STYLES
+   ======================================== */
+
+.homepage {
+    min-height: 100vh;
+    background: var(--color-gray-50);
+}
+
+.loading-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    margin-top: 70px;
+}
+
+/* ===== Latest News Section ===== */
+.latest-section {
+    padding: var(--space-8) 0 var(--space-16);
+    background: var(--color-gray-50);
+}
+
+.latest-container {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 var(--space-4);
+}
+
+.latest-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-6);
+}
+
+.end-message {
+    text-align: center;
+    padding: var(--space-8);
+    color: var(--color-gray-500);
+    font-size: var(--text-sm);
+}
+
+/* Responsive */
+@media (max-width: 1199px) {
+    .latest-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 991px) {
+    .latest-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 575px) {
+    .latest-section {
+        padding: var(--space-6) 0 var(--space-12);
+    }
+
+    .latest-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-4);
+    }
+}

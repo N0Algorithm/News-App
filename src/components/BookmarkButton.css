@@ -1,0 +1,88 @@
+/* ========================================
+   BOOKMARK BUTTON STYLES
+   ======================================== */
+
+.bookmark-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-md);
+    color: var(--color-gray-500);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    padding: var(--space-2);
+}
+
+.bookmark-btn:hover {
+    background: var(--color-white);
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+    transform: scale(1.05);
+}
+
+.bookmark-btn.bookmarked {
+    background: var(--color-primary);
+    color: var(--color-white);
+    border-color: var(--color-primary);
+}
+
+.bookmark-btn.bookmarked:hover {
+    background: var(--color-primary-dark);
+}
+
+/* Icon */
+.bookmark-icon {
+    width: 18px;
+    height: 18px;
+    transition: transform var(--transition-fast);
+}
+
+.bookmark-btn:active .bookmark-icon {
+    transform: scale(0.85);
+}
+
+/* Size variants */
+.bookmark-sm {
+    padding: var(--space-1);
+}
+
+.bookmark-sm .bookmark-icon {
+    width: 14px;
+    height: 14px;
+}
+
+.bookmark-lg {
+    padding: var(--space-3);
+}
+
+.bookmark-lg .bookmark-icon {
+    width: 22px;
+    height: 22px;
+}
+
+/* Label */
+.bookmark-label {
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+}
+
+/* Animation for save action */
+@keyframes bookmark-pop {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.bookmark-btn.bookmarked .bookmark-icon {
+    animation: bookmark-pop 0.3s ease;
+}

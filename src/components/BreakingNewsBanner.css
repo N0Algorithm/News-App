@@ -1,0 +1,106 @@
+/* ========================================
+   BREAKING NEWS BANNER STYLES
+   ======================================== */
+
+.breaking-banner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: var(--z-fixed);
+    display: flex;
+    align-items: center;
+    background: var(--color-accent);
+    height: 36px;
+    overflow: hidden;
+}
+
+.breaking-label {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: 0 var(--space-4);
+    background: var(--color-accent-dark);
+    color: var(--color-white);
+    font-size: var(--text-xs);
+    font-weight: var(--font-bold);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    height: 100%;
+    flex-shrink: 0;
+}
+
+.breaking-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--color-white);
+    border-radius: var(--radius-full);
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.3;
+    }
+}
+
+.breaking-ticker-wrapper {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+}
+
+.breaking-ticker {
+    display: flex;
+    animation: ticker 30s linear infinite;
+}
+
+.ticker-text {
+    color: var(--color-white);
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    white-space: nowrap;
+    padding: 0 var(--space-8);
+}
+
+@keyframes ticker {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+/* Pause animation on hover for readability */
+.breaking-banner:hover .breaking-ticker {
+    animation-play-state: paused;
+}
+
+/* When breaking news is showing, push navbar down */
+body.has-breaking-news .navbar {
+    top: 36px;
+}
+
+body.has-breaking-news .hero-section {
+    margin-top: 106px;
+    /* 70px navbar + 36px banner */
+}
+
+/* Responsive */
+@media (max-width: 575px) {
+    .breaking-label span:last-child {
+        display: none;
+    }
+
+    .ticker-text {
+        font-size: var(--text-xs);
+    }
+}

@@ -1,0 +1,49 @@
+/* ========================================
+   SCROLL PROGRESS STYLES
+   ======================================== */
+
+.scroll-progress-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: rgba(0, 0, 0, 0.05);
+    z-index: 9999;
+    pointer-events: none;
+}
+
+[data-theme="dark"] .scroll-progress-container {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.scroll-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg,
+            var(--color-primary) 0%,
+            var(--color-primary-light) 50%,
+            var(--color-primary) 100%);
+    background-size: 200% 100%;
+    transform-origin: left;
+    will-change: transform;
+    animation: shimmer 2s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+
+    0%,
+    100% {
+        background-position: 100% 0;
+    }
+
+    50% {
+        background-position: 0 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .scroll-progress-bar {
+        animation: none;
+        background: var(--color-primary);
+    }
+}

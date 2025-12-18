@@ -1,86 +1,142 @@
-import React, {useEffect, useState} from 'react'
-
-import NewsItem from './Newsitem'
+import React, { useEffect, useState } from 'react';
+import ArticleCard from './ArticleCard';
 import Loading from './Loading';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import InfiniteScroll from "react-infinite-scroll-component";
+import { removeDuplicates } from '../utils/editorialUtils';
+import './News.css';
 
-const News = (props)=>{
-    const [articles, setArticles] = useState([])
-    const [loading, setLoading] = useState(true)
-    const [page, setPage] = useState(1)
-    const [totalResults, setTotalResults] = useState(0)
-    
+/**
+ * News Component
+ * Category-specific news page with redesigned layout
+ */
+const News = (props) => {
+    const [articles, setArticles] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [nextPage, setNextPage] = useState(null);
+
     const capitalizeFirstLetter = (string) => {
         return string.charAt(0).toUpperCase() + string.slice(1);
-    } 
+    }
 
-    
+    const getCategoryColor = (category) => {
+        const colors = {
+            business: '#1d3557',
+            technology: '#457b9d',
+            health: '#2a9d8f',
+            science: '#264653',
+            sports: '#e76f51',
+            entertainment: '#9c6644',
+            general: '#6c757d'
+        };
+        return colors[category.toLowerCase()] || colors.general;
+    }
+
     const updateNews = async () => {
-  const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page}&pageSize=${props.pageSize}`;
-  setLoading(true);
-  try {
-    let data = await fetch(url);
-    let parsedData = await data.json();
+        const url = `https://newsdata.io/api/1/latest?apikey=${props.apiKey}&language=en`;
+        setLoading(true);
+        try {
+            let data = await fetch(url);
+            let parsedData = await data.json();
 
-
-    setArticles(parsedData.articles || []);
-    setTotalResults(parsedData.totalResults || 0);
-  } catch (error) {
-    console.error("Failed to fetch news:", error);
-    setArticles([]);
-    setTotalResults(0);
-  }
-  setLoading(false);
-};
+            const resultsArray = Array.isArray(parsedData.results) ? parsedData.results : [];
+            const uniqueArticles = removeDuplicates(resultsArray);
+            setArticles(uniqueArticles);
+            setNextPage(parsedData.nextPage || null);
+        } catch (error) {
+            console.error("Failed to fetch news:", error);
+            setArticles([]);
+        }
+        setLoading(false);
+    };
 
     useEffect(() => {
-        document.title = `${capitalizeFirstLetter(props.category)} - NewsMonkey`;
-        updateNews(); 
+        document.title = `${capitalizeFirstLetter(props.category)} News - NewsTempo`;
+        updateNews();
         // eslint-disable-next-line
-    }, [])
-
+    }, [props.category]);
 
     const fetchMoreData = async () => {
-    const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page+1}&pageSize=${props.pageSize}`;
-    setPage(page + 1);
-    try {
-        let data = await fetch(url);
-        let parsedData = await data.json();
-        
-        setArticles(prev => [...prev, ...(parsedData.articles || [])]); // ✅ fallback
-        setTotalResults(parsedData.totalResults || 0);
-    } catch (error) {
-        console.error("Failed to fetch more data:", error);
-    }
-};
- 
-        return (
-            <>
-                <h1 className="text-center" style={{ margin: '35px 0px', marginTop: '90px' }}>News- Top {capitalizeFirstLetter(props.category)} Headlines</h1>
-                {loading && <Loading />}
+        if (!nextPage) return;
+
+        const url = `https://newsdata.io/api/1/latest?apikey=${props.apiKey}&language=en&page=${nextPage}`;
+        try {
+            let data = await fetch(url);
+            let parsedData = await data.json();
+
+            const newArticles = parsedData.results || [];
+            const combined = [...articles, ...newArticles];
+            setArticles(removeDuplicates(combined));
+            setNextPage(parsedData.nextPage || null);
+        } catch (error) {
+            console.error("Failed to fetch more data:", error);
+        }
+    };
+
+    return (
+        <div className="category-page">
+            {/* Category Header */}
+            <div className="category-page-header">
+                <div className="category-page-container">
+                    <div
+                        className="category-indicator-large"
+                        style={{ backgroundColor: getCategoryColor(props.category) }}
+                    ></div>
+                    <div className="category-page-info">
+                        <h1 className="category-page-title">
+                            {capitalizeFirstLetter(props.category)}
+                        </h1>
+                        <p className="category-page-subtitle">
+                            Top headlines and latest news in {props.category}
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            {/* Loading State */}
+            {loading && (
+                <div className="category-loading">
+                    <Loading />
+                </div>
+            )}
+
+            {/* Articles Grid */}
+            {!loading && (
                 <InfiniteScroll
                     dataLength={articles.length}
                     next={fetchMoreData}
-                    hasMore={articles.length !== totalResults}
-                    loader={<Loading/>}
-                > 
-                    <div className="container">
-                         
-                    <div className="row">
-                        {articles.map((element) => {
-                            return <div className="col-md-4" key={element.url}>
-                                <NewsItem title={element.title ? element.title : ""} description={element.description ? element.description : ""} imageUrl={element.urlToImage} newsUrl={element.url} author={element.author} date={element.publishedAt} source={element.source.name} />
-                            </div>
-                        })}
+                    hasMore={nextPage !== null}
+                    loader={<Loading />}
+                    endMessage={
+                        <p className="end-message">
+                            You've reached the end of {props.category} news.
+                        </p>
+                    }
+                >
+                    <div className="category-page-content">
+                        <div className="category-articles-grid">
+                            {articles.map((article, index) => (
+                                <ArticleCard
+                                    key={article.article_id || index}
+                                    article={article}
+                                    variant="default"
+                                />
+                            ))}
+                        </div>
                     </div>
-                    </div> 
                 </InfiniteScroll>
-            </>
-        )
-    
-}
+            )}
 
+            {/* Empty State */}
+            {!loading && articles.length === 0 && (
+                <div className="category-empty">
+                    <h3>No articles found</h3>
+                    <p>Check back later for {props.category} news.</p>
+                </div>
+            )}
+        </div>
+    );
+}
 
 News.defaultProps = {
     country: 'in',
@@ -94,4 +150,4 @@ News.propTypes = {
     category: PropTypes.string,
 }
 
-export default News
+export default News;

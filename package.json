@@ -1,6 +1,6 @@
 {
-  "name": "newstempo",
-  "version": "0.1.0",
+  "name": "aknews",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "@testing-library/dom": "^10.4.1",
@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^14.6.1",
     "bootstrap": "^5.3.8",
     "css-what": "^7.0.0",
+    "framer-motion": "^12.23.26",
     "gry": "^6.1.1",
     "package-lock.json": "^1.0.0",
     "package.json": "^2.0.1",
