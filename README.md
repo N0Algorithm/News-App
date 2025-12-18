@@ -1,4 +1,4 @@
-# AkNews 📰
+# News App 📰
 
 A modern, premium editorial news application built with React.js featuring smooth animations, dark/light mode, and a professional design inspired by top news platforms.
 
