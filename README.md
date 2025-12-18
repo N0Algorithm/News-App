@@ -1,70 +1,149 @@
-# Getting Started with Create React App
+# AkNews 📰
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A modern, premium editorial news application built with React.js featuring smooth animations, dark/light mode, and a professional design inspired by top news platforms.
 
-## Available Scripts
+![React](https://img.shields.io/badge/React-19.2.0-61DAFB?logo=react)
+![Framer Motion](https://img.shields.io/badge/Framer_Motion-12.x-FF0055?logo=framer)
+![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3-7952B3?logo=bootstrap)
 
-In the project directory, you can run:
+## ✨ Features
 
-### `npm start`
+### Core Features
+- 🏠 **Editorial Homepage** - Hero section, featured articles grid, infinite scroll
+- 📖 **Article Detail Page** - Full article view with social sharing
+- 🔖 **Bookmarks** - Save articles with localStorage persistence
+- 🌓 **Dark/Light Mode** - Smooth theme transitions with system preference detection
+- 📱 **Responsive Design** - Mobile-first approach for all screen sizes
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Premium Animations (Framer Motion)
+- 🎯 Card hover lift with image zoom
+- ✨ Staggered headline reveal on load
+- 📜 Sticky shrinking header with glass effect
+- 🖼️ Image blur-up loading effect
+- 🌙 Smooth day/night color transitions
+- ♿ Reduced motion support for accessibility
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Design System
+- Custom CSS variables for consistent theming
+- Liquid glass effects (glassmorphism)
+- WCAG AA compliant color contrast
+- Typography: Inter + Playfair Display fonts
 
-### `npm test`
+## 🛠️ Tech Stack
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+| Technology | Purpose |
+|------------|---------|
+| React 19 | UI Framework |
+| React Router | Navigation |
+| Framer Motion | Animations |
+| Bootstrap 5 | Grid system |
+| newsdata.io API | News data |
+| localStorage | Persistence |
 
-### `npm run build`
+## 🚀 Getting Started
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Prerequisites
+- Node.js 18+
+- npm or yarn
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Installation
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+1. Clone the repository:
+```bash
+git clone https://github.com/N0Algorithm/News-App.git
+cd News-App
+```
 
-### `npm run eject`
+2. Install dependencies:
+```bash
+npm install
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+3. Create a `.env` file with your API key:
+```env
+REACT_APP_NEWS_API=your_newsdata_io_api_key
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+4. Start the development server:
+```bash
+npm start
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+5. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## 📁 Project Structure
 
-## Learn More
+```
+src/
+├── components/          # Reusable UI components
+│   ├── ArticleCard.js   # Card with 4 variants
+│   ├── BookmarkButton.js
+│   ├── HeroSection.js
+│   ├── FeaturedArticles.js
+│   ├── BreakingNewsBanner.js
+│   ├── Navbar.js
+│   ├── ThemeToggle.js
+│   └── Loading.js
+├── context/             # React Context providers
+│   ├── BookmarkContext.js
+│   └── ThemeContext.js
+├── pages/               # Page components
+│   ├── HomePage.js
+│   ├── ArticlePage.js
+│   └── SavedPage.js
+├── styles/              # Design system CSS
+│   ├── variables.css    # Color palette & tokens
+│   ├── components.css   # Shared styles
+│   └── animations.css   # Animation styles
+├── utils/               # Utility functions
+│   ├── editorialUtils.js
+│   └── animations.js    # Framer Motion variants
+├── App.js
+└── App.css
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## 🎨 Color Palettes
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Light Mode
+| Purpose | Color |
+|---------|-------|
+| Background | `#FAFAFA` |
+| Cards | `#FFFFFF` |
+| Headings | `#212121` |
+| Body Text | `#424242` |
+| Accent | `#1976D2` |
 
-### Code Splitting
+### Dark Mode
+| Purpose | Color |
+|---------|-------|
+| Background | `#121212` |
+| Cards | `#1E1E1E` |
+| Headings | `#E0E0E0` |
+| Body Text | `#BDBDBD` |
+| Accent | `#4FC3F7` |
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## 📜 Available Scripts
 
-### Analyzing the Bundle Size
+| Command | Description |
+|---------|-------------|
+| `npm start` | Run development server |
+| `npm test` | Run tests |
+| `npm run build` | Build for production |
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## 🔑 Environment Variables
 
-### Making a Progressive Web App
+| Variable | Description | Required |
+|----------|-------------|----------|
+| `REACT_APP_NEWS_API` | newsdata.io API key | Yes |
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## 📄 License
 
-### Advanced Configuration
+This project is open source and available under the [MIT License](LICENSE).
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## 👤 Author
 
-### Deployment
+**N0Algorithm**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+---
 
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+⭐ Star this repo if you found it helpful!
